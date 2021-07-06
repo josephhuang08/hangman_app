@@ -18,7 +18,9 @@ class Hangman_App:
 
         #set app title, icon and window size
         root.title('Hangman')
-        root.iconbitmap('assets/logo.gif')
+        icon_img = ImageTk.PhotoImage(Image.open('assets/player.png')) 
+        #root.iconbitmap('assets/logo.gif')
+        root.iconphoto(False, icon_img)
         root.geometry(f'{self.app_x}x{self.app_y}')
 
         root.mainloop()
