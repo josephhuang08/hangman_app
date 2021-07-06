@@ -1,3 +1,5 @@
+import random
+
 class Ans:
     def __init__(self, word):
         self.word = word
@@ -34,7 +36,9 @@ class Game:
             player.lives -= 1
 
     def vali_ans(self, in_ans):
-        if ' ' in in_ans:
+        if in_ans == '':
+            return True, ''
+        elif ' ' in in_ans:
             return False, 'No spaces allowed'
         elif not in_ans.isalpha():
             return False, 'Enter only letters'
@@ -45,3 +49,11 @@ class Game:
         else:
             return True, ''
 
+    def get_word(self):
+        with open('1-1000.txt', 'r') as f:
+            contents = f.readlines()
+            word = ''
+            while len(word) < 4 or len(word) > 15:
+                word = random.choice(contents).strip()
+            
+        return word

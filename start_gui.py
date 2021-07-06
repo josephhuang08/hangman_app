@@ -59,7 +59,7 @@ class Start_frame(Hangman_App):
         self.e_label['text'] = e_msg
         #if the input is valid destroy all widget on the start frame and lauch game frame
         if vali:
-            self.ans = Ans(in_ans)
+            self.ans = Ans(in_ans) if in_ans != '' else Ans(self.game.get_word())
             self.start_label.destroy()
             self.start_button.destroy()
             self.ans_label.destroy()
@@ -112,13 +112,14 @@ class Main_frame(Hangman_App):
         #error message
         self.e_msg = Label(root, text='Take your guess')
 
-        #player's guesses
+        #player's guesses and board image
         board_img = self.resize_ratio(Image.open('assets/board.png'), 0.8)
         board_img = ImageTk.PhotoImage(board_img)
         self.board_label = Label(root, image=board_img)
         self.board_label.image = board_img
         self.guesses_label = Label(root, text='')
 
+    #resize image using ratio
     def resize_ratio(self, img, ratio):
         width, height = img.size
         width, height = int(width * ratio), int(height * ratio)
@@ -126,8 +127,8 @@ class Main_frame(Hangman_App):
     
     def resize_img(self, img):
         width, height = img.size
-        ratio = self.dash_w / width
-       
+        ratio = self.dash_w / width 
+        #max height of image is 125
         if int(height * ratio) <= 125:
             new_height = int(height * ratio) 
         else:
@@ -137,22 +138,25 @@ class Main_frame(Hangman_App):
 
         return img.resize((new_width, new_height))
 
-
     #update the playerself's guesses
     def update_guesses(self):
         self.guesses_label['text'] = self.player.guesses
+    
+    def display_letter(self, char, i):
+        ltr_img = self.resize_img(Image.open(f'assets/{char}.png'))
+        ltr_img = self.resize_ratio(ltr_img, 0.8)
+        ltr_img = ImageTk.PhotoImage(ltr_img)
+        self.ltr_label = lambda: Label(root, image=ltr_img)
+        self.ltr_label().image = ltr_img
+        self.ltr_label().place(x = self.dash_x(i) + (self.dash_w * 0.1), y = self.padtop)
     
     #update how many letters have the playered guessed and display the progress
     def update_stat(self, guess):
         self.game.update_status(guess, self.ans, self.player)
         for i, char in enumerate(self.ans.word):
             if guess == char and guess not in self.ans.letters:
-                ltr_img = self.resize_img(Image.open(f'assets/{char}.png'))
-                ltr_img = self.resize_ratio(ltr_img, 0.8)
-                ltr_img = ImageTk.PhotoImage(ltr_img)
-                self.ltr_label = lambda: Label(root, image=ltr_img)
-                self.ltr_label().image = ltr_img
-                self.ltr_label().place(x = self.dash_x(i) + (self.dash_w * 0.1), y = self.padtop)
+                self.display_letter(char, i)
+                
 
     #update hang man image
     def update_hang(self):
@@ -166,7 +170,7 @@ class Main_frame(Hangman_App):
         root.destroy()
         self.start_app()
 
-    #check if player had guesses the word and if the player still have lives
+    #check if player won or lost and display the correct image with a restart button and the correct answer
     def check_win(self):
         def win_or_lose():
             if self.ans.letters == set():
@@ -184,14 +188,16 @@ class Main_frame(Hangman_App):
             self.guess_button.destroy()
             self.guesses_label.destroy()
             restart_button = Button(root, text='restart', command=self.restart)
-        
+           
             over_img = ImageTk.PhotoImage(Image.open(f'assets/{game_res}.png'))
             over_label = Label(root, image=over_img)
             over_label.image = over_img
             over_label.place(x=60, y=200)
             restart_button.place(x=230, y=430)
+            #display answer
+            for i, char in enumerate(self.ans.word):
+                self.display_letter(char, i)
             
-    
     #check if player entered a valid guess and display an error message
     def check_input(self):
         guess = self.guess_entry.get()
@@ -204,8 +210,8 @@ class Main_frame(Hangman_App):
             self.update_hang()
             self.check_win()
 
+    #displaying
     def display(self):
-        #displaying
         for i in range(self.ans.len):
             self.dash_label().place(x=self.dash_x(i), y=self.ltr_height + self.padtop + 5)
         self.player_label.place(x=90, y=250)
@@ -214,7 +220,6 @@ class Main_frame(Hangman_App):
         self.guess_button.place(x=168, y=363)
         self.e_msg.place(x=50, y=220)
         self.guesses_label.place(x=360, y=330)
-
 
 if __name__ == "__main__":
     hangman_app = Hangman_App()
