@@ -28,14 +28,15 @@ Run `python start_gui.py` or click on the `.exe` file.
 
 ![alt text](assets/intro.png)
 
-##### This app can be single player or second player  
-Single player: Click on the start button with no input. The bot will randomly choose a word from `1-1000.txt` file.
+This game can be played with a bot or with a player.  
 
-Second player: Enter a word in the input form as the answer. The word must be within the minimum length of 4 or the maximum length of 15 with no special charcters or spaces. Click the start button to enter the game with your chosen word.
+**Bot:** Click on the start button with no input. The bot will randomly choose a word from `1-1000.txt` file.
 
-To guess the word, enter a letter in the speach bubble and click submit.
+**Player:** Enter a word in the input form as the answer. The word must be within the minimum length of 4 or the maximum length of 15 with no special charcters or spaces. Click the start button to enter the game with your chosen word.
 
+To guess the word, enter a letter in the speech bubble and click submit.
 When the game is finished click on the reset button for a new game.
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -46,6 +47,7 @@ Contributions are what make the open source community such an amazing place to b
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
 
 <!-- CONTACT -->
 ## Contact
