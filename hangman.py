@@ -45,7 +45,7 @@ class Game:
         elif len(in_ans) > 15:
             return False, 'Maximum 15 letters'
         elif len(in_ans) < 4:
-            return False, 'Minimun 4 letters'
+            return False, 'Minimum 4 letters'
         else:
             return True, ''
 
